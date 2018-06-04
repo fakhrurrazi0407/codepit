@@ -37,7 +37,7 @@ int persen = 0;
 int menuIdx = 0;
 
 const int menuA = 2;
-int mnA = 1;
+int mnA = 2;
 
 #include "menu.h"
 
@@ -106,37 +106,76 @@ void tulisData() {
         mnB++;
         if (mnB > 7)mnB = 0;
       }
-      
+
       else if (key == '^') { // Turun
         mnB--;
         if (mnB < 0)mnB = 7;
       }
-      
+
       else if (key == 'E') {
         switch (mnB) {
           case 0:
-//            lokasi();
+            lokasi();
             break;
           case 1:
-//            stasiun();
+            //stasiun();
             break;
-            case 2:
-//            pengamat();
+          case 2:
+            //pengamat();
             break;
           case 3:
-//            tangal();
+            //tangal();
             break;
-            case 4:
-//            waktu();
+          case 4:
+            //waktu();
             break;
           case 5:
-//            kedalaman();
-            break;            
+            //kedalaman();
+            break;
         }
       }
       lcd.clear();
     }
     tampilMenu(menuSB, mnB);
+
+    if (xs(key)) {
+      break;
+    }
+    delay(50);
+  }
+}
+
+void lokasi() {
+  lcd.clear();
+  int cr = 46;
+  int pos = 0;
+  String loc = "----------------";
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Lokasi :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(loc);
+
+    if (key) {
+      Serial.println(key);
+      if (key == 'v') { // Naik
+        cr++;
+        if (cr > 90)cr = 46;
+      }
+      else if (key == '^') { // Turun
+        cr--;
+        if (cr < 46)cr = 90;
+      }
+      else if (key == '>') { // Naik
+        pos++;
+        if (pos > 15)pos = 0;
+      }
+      else if (key == '<') { // Turun
+        pos--;
+        if (pos < 0)pos = 15;
+      }
+      loc.setCharAt(pos, (char)cr);
+    }
 
     if (xs(key)) {
       break;
