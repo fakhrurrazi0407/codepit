@@ -124,7 +124,7 @@ void tulisData() {
             pengamat();
             break;
           case 3:
-            //tangal();
+            tanggal();
             break;
           case 4:
             //waktu();
@@ -260,4 +260,29 @@ void pengamat() {
     }
     delay(50);
   }
+}
+
+void tanggal () {
+  lcd.clear ();
+  int digit = 0;
+  int persen = 0;
+  String persenTemp;
+  char key = kpd.getKey();
+  if (key)
+  {
+    //    lcd.setCursor(0, 1);
+    //    lcd.print("persenTemp= ");
+    //    lcd.print(key);
+    if (digit < 3) {
+      persenTemp += key;
+      digit++;
+    }
+    if (key == 'D') {
+      persen = persenTemp.toInt();
+    }
+  }
+  lcd.setCursor(11, 0);
+  lcd.print(persenTemp);
+  lcd.setCursor(0, 1);
+  lcd.print(persen);
 }
