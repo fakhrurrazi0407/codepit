@@ -118,10 +118,10 @@ void tulisData() {
             lokasi();
             break;
           case 1:
-            //stasiun();
+            stasiun();
             break;
           case 2:
-            //pengamat();
+            pengamat();
             break;
           case 3:
             //tangal();
@@ -175,6 +175,84 @@ void lokasi() {
         if (pos < 0)pos = 15;
       }
       loc.setCharAt(pos, (char)cr);
+    }
+
+    if (xs(key)) {
+      break;
+    }
+    delay(50);
+  }
+}
+
+void stasiun() {
+  lcd.clear();
+  int cr = 46;
+  int pos = 0;
+  String stat = "----------------";
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Stasiun :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(stat);
+
+    if (key) {
+      Serial.println(key);
+      if (key == 'v') { // Naik
+        cr++;
+        if (cr > 90)cr = 46;
+      }
+      else if (key == '^') { // Turun
+        cr--;
+        if (cr < 46)cr = 90;
+      }
+      else if (key == '>') { // Naik
+        pos++;
+        if (pos > 15)pos = 0;
+      }
+      else if (key == '<') { // Turun
+        pos--;
+        if (pos < 0)pos = 15;
+      }
+      stat.setCharAt(pos, (char)cr);
+    }
+
+    if (xs(key)) {
+      break;
+    }
+    delay(50);
+  }
+}
+
+void pengamat() {
+  lcd.clear();
+  int cr = 46;
+  int pos = 0;
+  String obs = "----------------";
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Pengamat :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(obs);
+
+    if (key) {
+      Serial.println(key);
+      if (key == 'v') { // Naik
+        cr++;
+        if (cr > 90)cr = 46;
+      }
+      else if (key == '^') { // Turun
+        cr--;
+        if (cr < 46)cr = 90;
+      }
+      else if (key == '>') { // Naik
+        pos++;
+        if (pos > 15)pos = 0;
+      }
+      else if (key == '<') { // Turun
+        pos--;
+        if (pos < 0)pos = 15;
+      }
+      obs.setCharAt(pos, (char)cr);
     }
 
     if (xs(key)) {
