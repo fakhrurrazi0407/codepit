@@ -38,6 +38,9 @@ int menuIdx = 0;
 
 const int menuA = 2;
 int mnA = 2;
+unsigned long currentMillis;
+unsigned long previousMillis;
+const long interval = 500;
 
 #include "menu.h"
 
@@ -124,13 +127,19 @@ void tulisData() {
             pengamat();
             break;
           case 3:
-            //            tanggal();
+            tanggal();
             break;
           case 4:
-            //waktu();
+            waktu();
             break;
           case 5:
-            //kedalaman();
+            kedalaman();
+            break;
+          case 6 :
+            visibility();
+            break;
+          case 7 :
+            //            cuaca();
             break;
         }
       }
@@ -148,7 +157,7 @@ void tulisData() {
 void lokasi() {
   lcd.clear();
   int cr = 46;
-  int pos = 0;  
+  int pos = 0;
   String loc = "                ";
   while (1) {
     char key = kpd.getKey();
@@ -217,3 +226,89 @@ void pengamat() {
     delay(50);
   }
 }
+
+void kedalaman() {
+
+  lcd.clear();
+  int depth = 0;
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Kedalaman :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(depth);
+    if (key) {
+      if (key == '>') {
+        depth = integer("Kedalaman", depth, 2);
+      }
+      if (xs(key)) {
+        break;
+      }
+      delay(50);
+    }
+  }
+}
+
+void tanggal () {
+  lcd.clear();
+  int cr = 46;
+  int pos = 0;
+  String dt = "----------------";
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Tanggal :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(dt);
+
+    if (key) {
+      if (key == '>') {
+        dt = ascii("Tanggal :", dt);
+      }
+    }
+
+    if (xs(key)) {
+      break;
+    }
+    delay(50);
+  }
+}
+
+void waktu () {
+  lcd.clear();
+  int tm = 0;
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Waktu :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(tm);
+    if (key) {
+      if (key == '>') {
+        tm = integer("Waktu", tm, 4);
+      }
+      if (xs(key)) {
+        break;
+      }
+    }
+    delay(50);
+  }
+}
+
+void visibility () {
+  lcd.clear();
+  int vs = 0;
+  while (1) {
+    char key = kpd.getKey();
+    tampilLcd(0, 0, "Visibility :        ");
+    lcd.setCursor(0, 1);
+    lcd.print(vs);
+    if (key) {
+      if (key == '>') {
+        vs = integer("Visibility", vs, 2);
+      }
+      if (xs(key)) {
+        break;
+      }
+    }
+    delay(50);
+  }
+}
+

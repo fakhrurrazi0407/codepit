@@ -81,9 +81,8 @@ String ascii(String text, String val) {
   int pos = 0;
   int cr = 46;
   bool bl = true;
-  unsigned long currentMillis = millis();
-  unsigned long previousMillis = 0;
-  const long interval = 500;
+  currentMillis = millis();
+  previousMillis = 0;
   String lastval = val;
   lcd.setCursor(0, 1);
   lcd.print(val);
@@ -133,6 +132,46 @@ String ascii(String text, String val) {
       lcd.setCursor(0, 1);
       lcd.print(val);
       val.setCharAt(pos, (char)cr);
+    }
+  }
+}
+
+int integer(String text, int last, int max) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(">");
+  lcd.setCursor(1, 0);
+  lcd.print(text);
+  String x = String(last);
+  int digit = x.length();
+  int pos = digit;
+  while (1) {
+    char key = kpd.getKey();
+    lcd.setCursor(0, 1);
+    lcd.print(x);
+    lcd.setCursor(pos, 1);
+    lcd.print("<");
+    if (key)
+    {
+      if (digit < max) {
+        x += key;
+      }
+      if (key == 'E') {
+        lcd.clear();
+        return x.toInt();
+      }
+      else if (key == '<') {
+        tampilLcd(0, 1, "                ");
+        pos = pos - 1;
+        x.remove(pos);
+        digit = x.length();
+      }
+      else {
+        digit++;
+        if (digit <= max) {
+          pos++;
+        }
+      }
     }
   }
 }

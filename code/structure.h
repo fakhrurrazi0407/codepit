@@ -24,7 +24,7 @@ struct CoreMap {
   String cm_location;
   String cm_station;
   String cm_observer;
-  int cm_date[3];
+  String cm_date;
   int cm_time[2];
   int cm_depth;
   int cm_visibility;
