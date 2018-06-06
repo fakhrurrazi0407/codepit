@@ -46,8 +46,8 @@ void setup()
   Serial.begin(9600);
   lcd.begin(16, 2);
 }
-void loop() {
 
+void loop() {
   char key = kpd.getKey();
   if (key) {
     lcd.clear();
@@ -124,7 +124,7 @@ void tulisData() {
             pengamat();
             break;
           case 3:
-            tanggal();
+            //            tanggal();
             break;
           case 4:
             //waktu();
@@ -148,8 +148,8 @@ void tulisData() {
 void lokasi() {
   lcd.clear();
   int cr = 46;
-  int pos = 0;
-  String loc = "----------------";
+  int pos = 0;  
+  String loc = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Lokasi :        ");
@@ -157,24 +157,9 @@ void lokasi() {
     lcd.print(loc);
 
     if (key) {
-      Serial.println(key);
-      if (key == 'v') { // Naik
-        cr++;
-        if (cr > 90)cr = 46;
+      if (key == '>') {
+        loc = ascii("Lokasi :", loc);
       }
-      else if (key == '^') { // Turun
-        cr--;
-        if (cr < 46)cr = 90;
-      }
-      else if (key == '>') { // Naik
-        pos++;
-        if (pos > 15)pos = 0;
-      }
-      else if (key == '<') { // Turun
-        pos--;
-        if (pos < 0)pos = 15;
-      }
-      loc.setCharAt(pos, (char)cr);
     }
 
     if (xs(key)) {
@@ -183,6 +168,7 @@ void lokasi() {
     delay(50);
   }
 }
+
 
 void stasiun() {
   lcd.clear();
@@ -196,24 +182,9 @@ void stasiun() {
     lcd.print(stat);
 
     if (key) {
-      Serial.println(key);
-      if (key == 'v') { // Naik
-        cr++;
-        if (cr > 90)cr = 46;
+      if (key == '>') {
+        stat = ascii("Stasiun :", stat);
       }
-      else if (key == '^') { // Turun
-        cr--;
-        if (cr < 46)cr = 90;
-      }
-      else if (key == '>') { // Naik
-        pos++;
-        if (pos > 15)pos = 0;
-      }
-      else if (key == '<') { // Turun
-        pos--;
-        if (pos < 0)pos = 15;
-      }
-      stat.setCharAt(pos, (char)cr);
     }
 
     if (xs(key)) {
@@ -235,24 +206,9 @@ void pengamat() {
     lcd.print(obs);
 
     if (key) {
-      Serial.println(key);
-      if (key == 'v') { // Naik
-        cr++;
-        if (cr > 90)cr = 46;
+      if (key == '>') {
+        obs = ascii("Pengamat :", obs);
       }
-      else if (key == '^') { // Turun
-        cr--;
-        if (cr < 46)cr = 90;
-      }
-      else if (key == '>') { // Naik
-        pos++;
-        if (pos > 15)pos = 0;
-      }
-      else if (key == '<') { // Turun
-        pos--;
-        if (pos < 0)pos = 15;
-      }
-      obs.setCharAt(pos, (char)cr);
     }
 
     if (xs(key)) {
@@ -260,29 +216,4 @@ void pengamat() {
     }
     delay(50);
   }
-}
-
-void tanggal () {
-  lcd.clear ();
-  int digit = 0;
-  int persen = 0;
-  String persenTemp;
-  char key = kpd.getKey();
-  if (key)
-  {
-    //    lcd.setCursor(0, 1);
-    //    lcd.print("persenTemp= ");
-    //    lcd.print(key);
-    if (digit < 3) {
-      persenTemp += key;
-      digit++;
-    }
-    if (key == 'D') {
-      persen = persenTemp.toInt();
-    }
-  }
-  lcd.setCursor(11, 0);
-  lcd.print(persenTemp);
-  lcd.setCursor(0, 1);
-  lcd.print(persen);
 }

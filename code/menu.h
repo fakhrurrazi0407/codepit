@@ -71,3 +71,68 @@ bool xs(char key) {
   }
   return false;
 }
+
+String ascii(String text, String val) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(">");
+  lcd.setCursor(1, 0);
+  lcd.print(text);
+  int pos = 0;
+  int cr = 46;
+  bool bl = true;
+  unsigned long currentMillis = millis();
+  unsigned long previousMillis = 0;
+  const long interval = 500;
+  String lastval = val;
+  lcd.setCursor(0, 1);
+  lcd.print(val);
+  while (1) {
+    char key = kpd.getKey();
+    currentMillis = millis();
+
+    if (currentMillis - previousMillis >= interval) {
+      bl = !bl;
+      previousMillis = currentMillis;
+    }
+
+    if (bl) {
+      lcd.setCursor(pos, 1);
+      lcd.write(255);
+    }
+    else {
+      lcd.setCursor(pos, 1);
+      lcd.print(val.charAt(pos));
+    }
+
+    if (key) {
+      if (key == 'v') {
+        cr++;
+        if (cr > 90)cr = 46;
+      }
+      else if (key == '^') {
+        cr--;
+        if (cr < 46)cr = 90;
+      }
+      else if (key == '>') {
+        pos++;
+        if (pos > 15)pos = 0;
+        cr = val.charAt(pos);
+      }
+      else if (key == '<') {
+        pos--;
+        if (pos < 0)pos = 15;
+        cr = val.charAt(pos);
+      }
+      else if (key == 'E') {
+        return val;
+      }
+      else if (key == 'X') {
+        return lastval;
+      }
+      lcd.setCursor(0, 1);
+      lcd.print(val);
+      val.setCharAt(pos, (char)cr);
+    }
+  }
+}
