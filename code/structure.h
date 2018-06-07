@@ -4,7 +4,7 @@ String data_cuaca[3] = { "Cerah", "Berawan", "Hujan" };
 
 struct Species {
   int name;
-  int quadrant[4];
+  int kuadrat[4];
 };
 
 struct CoreData {

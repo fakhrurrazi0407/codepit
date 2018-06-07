@@ -43,6 +43,7 @@ unsigned long previousMillis;
 const long interval = 500;
 
 #include "menu.h"
+#include "coredata.h"
 
 void setup()
 {
@@ -99,7 +100,7 @@ void bacaData() {
 }
 
 void tulisData() {
-  String menuSB[] = {"Lokasi", "Stasiun", "Pengamat", "Tanggal", "Waktu", "Kedalaman", "Visibility", "Cuaca"};
+  String menuSB[] = {"Lokasi", "Stasiun", "Pengamat", "Tanggal", "Waktu", "Kedalaman", "Visibility", "Cuaca", "Quadrant", "   "};
   int mnB = 0;
   while (1) {
     char key = kpd.getKey();
@@ -107,12 +108,12 @@ void tulisData() {
       Serial.println(key);
       if (key == 'v') { // Naik
         mnB++;
-        if (mnB > 7)mnB = 0;
+        if (mnB > 8)mnB = 0;
       }
 
       else if (key == '^') { // Turun
         mnB--;
-        if (mnB < 0)mnB = 7;
+        if (mnB < 0)mnB = 8;
       }
 
       else if (key == 'E') {
@@ -140,6 +141,9 @@ void tulisData() {
             break;
           case 7 :
             cuaca();
+            break;
+          case 8 :
+            menuquadrant();
             break;
         }
       }
@@ -182,7 +186,7 @@ void stasiun() {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String stat = "----------------";
+  String stat = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Stasiun :        ");
@@ -206,7 +210,7 @@ void pengamat() {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String obs = "----------------";
+  String obs = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Pengamat :        ");
@@ -251,7 +255,7 @@ void tanggal () {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String dt = "----------------";
+  String dt = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Tanggal :        ");
