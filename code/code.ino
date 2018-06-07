@@ -139,7 +139,7 @@ void tulisData() {
             visibility();
             break;
           case 7 :
-            //            cuaca();
+            cuaca();
             break;
         }
       }
@@ -177,7 +177,6 @@ void lokasi() {
     delay(50);
   }
 }
-
 
 void stasiun() {
   lcd.clear();
@@ -312,3 +311,47 @@ void visibility () {
   }
 }
 
+void cuaca() {
+  lcd.clear();
+  int cuaca = 0;
+  while (1) {
+    tampilLcd(0, 0, "Cuaca :         ");
+    lcd.setCursor(0, 1);
+    lcd.print(data_cuaca[cuaca]);
+    char key = kpd.getKey();
+    if (key) {
+      if (key == 'X') {
+        break;
+      }
+      else if (key == '>') {
+        while (1) {
+          tampilLcd(0, 0, ">Cuaca :        ");
+          lcd.setCursor(0, 1);
+          lcd.print(data_cuaca[cuaca]);
+          char key = kpd.getKey();
+          if (key) {
+            lcd.clear();
+            if (key == 'E') {
+              break;
+            }
+            else if (key == '^') {
+              cuaca++;
+              if (cuaca > 2) {
+                cuaca = 0;
+              }
+            }
+            else if (key == 'v') {
+              cuaca--;
+              if (cuaca < 0) {
+                cuaca = 2;
+              }
+            }
+            else if (key == 'X') {
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 String kolom_spesies[9] = { "Ea", "Th", "Cs", "Cr", "Hu", "Hp", "Ho", "Si", "Tc"};
-String substrat [4] = {"Pasir", "Lumpur", "Batu", "Rubble"};
+String substrat [4] = { "Pasir", "Lumpur", "Batu", "Rubble" };
+String data_cuaca[3] = { "Cerah", "Berawan", "Hujan" };
 
 struct Species {
   int name;
