@@ -1,6 +1,7 @@
 String kolom_spesies[9] = { "Ea", "Th", "Cs", "Cr", "Hu", "Hp", "Ho", "Si", "Tc"};
 String substrat [4] = { "Pasir", "Lumpur", "Batu", "Rubble" };
 String data_cuaca[3] = { "Cerah", "Berawan", "Hujan" };
+int rangecoredata[11] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
 struct Species {
   int name;
