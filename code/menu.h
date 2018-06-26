@@ -20,6 +20,15 @@ char sc(bool c) {
   }
 }
 
+char se(bool c) {
+  if (c) {
+    return '>';
+  }
+  else {
+    return '=';
+  }
+}
+
 tampilMenu(String t[], int idx) {
   //  if ((idx%2)) {
   //

@@ -2,7 +2,7 @@ void selectcoredata(int);
 void menucoredata(int, int);
 CoreData cdcoordinate(CoreData);
 CoreData cdsubstrat(CoreData);
-CoreData npl(String, CoreData);
+CoreData npl(int, CoreData);
 
 void menuquadrant() {
   lcd.clear();
@@ -85,6 +85,7 @@ void selectcoredata(int q) {
 }
 
 void menucoredata(int q, int m) {
+  lcd.clear();
   String menuSB[] = {"Koordinat     ", "Substrat      ", "NPL           ", "NPL Jenis     "};
   int mnB = 0;
   CoreData cd;
@@ -113,7 +114,10 @@ void menucoredata(int q, int m) {
             cd = cdsubstrat(cd);
             break;
           case 2:
-            cd = npl("NPL", cd);
+            cd = npl(-1, cd);
+            break;
+          case 3:
+            cd = npl(0, cd);
             break;
         }
       }
@@ -187,36 +191,90 @@ CoreData cdsubstrat(CoreData cd) {
   }
 }
 
-CoreData npl(String sp, CoreData cd) {
+CoreData npl(int np, CoreData cd) {
+  String sp;
+  bool edit = false;
+  int digit = 0;
+  if (np < 0) {
+    sp = "NP";
+  }
+  else {
+    sp = kolom_spesies[np];
+  }
+  int col = 0;
+  int pos = 0;
   lcd.clear();
-  int data[4] = {0, 0, 0, 0};
+  String data[4] = {"0", "0", "0", "0"};
   while (1) {
     lcd.setCursor(0, 0);
+    lcd.print(sc(col == 0 ? true : false));
+    lcd.setCursor(1, 0);
     lcd.print(sp);
-    lcd.print("=");
+    lcd.print(1);
+    lcd.print(se(col == 0 && edit ? true : false));
     lcd.print(data[0]);
-    
+
     lcd.setCursor(8, 0);
+    lcd.print(sc(col == 1 ? true : false));
+    lcd.setCursor(9, 0);
     lcd.print(sp);
-    lcd.print("=");
+    lcd.print(2);
+    lcd.print(se(col == 1 && edit ? true : false));
     lcd.print(data[1]);
-    
+
     lcd.setCursor(0, 1);
+    lcd.print(sc(col == 2 ? true : false));
+    lcd.setCursor(1, 1);
     lcd.print(sp);
-    lcd.print("=");
+    lcd.print(3);
+    lcd.print(se(col == 2 && edit ? true : false));
     lcd.print(data[2]);
-    
+
     lcd.setCursor(8, 1);
+    lcd.print(sc(col == 3 ? true : false));
+    lcd.setCursor(9, 1);
     lcd.print(sp);
-    lcd.print("=");
+    lcd.print(4);
+    lcd.print(se(col == 3 && edit ? true : false));
     lcd.print(data[3]);
-    
+
     char key = kpd.getKey();
     if (key) {
       lcd.clear();
-      if (key == 'X') {        
+      if (key == 'X') {
         break;
       }
+      else if (key == 'v') { // Naik
+        col++;
+        if (col > 3)col = 0;
+      }
+      else if (key == '^') { // Turun
+        col--;
+        if (col < 0)col = 3;
+      }
+      else if (key == '>') {
+        edit = true;
+        if (edit) {
+          digit = data[col].length();
+          pos = digit;
+        }
+      }
+      else if (key == '<') {
+        pos = pos - 1;
+        data[col].remove(pos);
+      }
+      else if (key == 'E') {
+        edit = false;
+      }
+      else {
+        if (edit) {
+          if (pos < 3) {
+            data[col] += key;
+            pos++;
+          }
+        }
+      }
+
     }
   }
 }
