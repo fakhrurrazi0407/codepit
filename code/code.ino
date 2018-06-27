@@ -100,6 +100,15 @@ void bacaData() {
 }
 
 void tulisData() {
+  CoreMap cm;
+  cm.cm_location = "                ";
+  cm.cm_station = "                ";
+  cm.cm_observer = "                ";
+  cm.cm_date = "                ";
+  cm.cm_time = "                ";
+  cm.cm_depth = 0;
+  cm.cm_visibility = 0;
+  cm.cm_weather = 0;
   String menuSB[] = {"Lokasi", "Stasiun", "Pengamat", "Tanggal", "Waktu", "Kedalaman", "Visibility", "Cuaca", "Quadrant", "   "};
   int mnB = 0;
   while (1) {
@@ -119,28 +128,28 @@ void tulisData() {
       else if (key == 'E') {
         switch (mnB) {
           case 0:
-            lokasi();
+            cm.cm_location = lokasi(cm.cm_location);
             break;
           case 1:
-            stasiun();
+            cm.cm_station = stasiun(cm.cm_station);
             break;
           case 2:
-            pengamat();
+            cm.cm_observer = pengamat(cm.cm_observer);
             break;
           case 3:
-            tanggal();
+            cm.cm_date = tanggal(cm.cm_date);
             break;
           case 4:
-            waktu();
+            cm.cm_time = waktu(cm.cm_time);
             break;
           case 5:
-            kedalaman();
+            cm.cm_depth = kedalaman(cm.cm_depth);
             break;
           case 6 :
-            visibility();
+            cm.cm_visibility = visibility(cm.cm_visibility);
             break;
           case 7 :
-            cuaca();
+            cm.cm_weather = cuaca(cm.cm_weather);
             break;
           case 8 :
             menuquadrant();
@@ -149,6 +158,7 @@ void tulisData() {
       }
       lcd.clear();
     }
+
     tampilMenu(menuSB, mnB);
 
     if (xs(key)) {
@@ -158,11 +168,10 @@ void tulisData() {
   }
 }
 
-void lokasi() {
+String lokasi(String loc) {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String loc = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Lokasi :        ");
@@ -176,17 +185,16 @@ void lokasi() {
     }
 
     if (xs(key)) {
-      break;
+      return loc;
     }
     delay(50);
   }
 }
 
-void stasiun() {
+String stasiun(String stat) {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String stat = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Stasiun :        ");
@@ -200,17 +208,16 @@ void stasiun() {
     }
 
     if (xs(key)) {
-      break;
+      return stat;
     }
     delay(50);
   }
 }
 
-void pengamat() {
+String pengamat(String obs) {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String obs = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Pengamat :        ");
@@ -224,16 +231,14 @@ void pengamat() {
     }
 
     if (xs(key)) {
-      break;
+      return obs;
     }
     delay(50);
   }
 }
 
-void kedalaman() {
-
+int kedalaman(int depth) {
   lcd.clear();
-  int depth = 0;
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Kedalaman :        ");
@@ -244,18 +249,17 @@ void kedalaman() {
         depth = integer("Kedalaman", depth, 2);
       }
       if (xs(key)) {
-        break;
+        return depth;
       }
       delay(50);
     }
   }
 }
 
-void tanggal () {
+String tanggal (String dt) {
   lcd.clear();
   int cr = 46;
   int pos = 0;
-  String dt = "                ";
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Tanggal :        ");
@@ -269,15 +273,14 @@ void tanggal () {
     }
 
     if (xs(key)) {
-      break;
+      return dt;
     }
     delay(50);
   }
 }
 
-void waktu () {
+String waktu (String tm) {
   lcd.clear();
-  int tm = 0;
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Waktu :        ");
@@ -285,19 +288,18 @@ void waktu () {
     lcd.print(tm);
     if (key) {
       if (key == '>') {
-        tm = integer("Waktu", tm, 4);
+        tm = ascii("Waktu", tm);
       }
       if (xs(key)) {
-        break;
+        return tm;
       }
     }
     delay(50);
   }
 }
 
-void visibility () {
+int visibility (int vs) {
   lcd.clear();
-  int vs = 0;
   while (1) {
     char key = kpd.getKey();
     tampilLcd(0, 0, "Visibility :        ");
@@ -308,16 +310,15 @@ void visibility () {
         vs = integer("Visibility", vs, 2);
       }
       if (xs(key)) {
-        break;
+        return vs;
       }
+      delay(50);
     }
-    delay(50);
   }
 }
 
-void cuaca() {
+int cuaca(int cuaca) {
   lcd.clear();
-  int cuaca = 0;
   while (1) {
     tampilLcd(0, 0, "Cuaca :         ");
     lcd.setCursor(0, 1);
@@ -325,7 +326,7 @@ void cuaca() {
     char key = kpd.getKey();
     if (key) {
       if (key == 'X') {
-        break;
+        return cuaca;
       }
       else if (key == '>') {
         while (1) {

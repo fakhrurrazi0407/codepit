@@ -3,6 +3,7 @@ void menucoredata(int, int);
 CoreData cdcoordinate(CoreData);
 CoreData cdsubstrat(CoreData);
 CoreData npl(int, CoreData);
+CoreData menunpls(CoreData);
 
 void menuquadrant() {
   lcd.clear();
@@ -117,7 +118,8 @@ void menucoredata(int q, int m) {
             cd = npl(-1, cd);
             break;
           case 3:
-            cd = npl(0, cd);
+            Serial.println("y");
+            cd = menunpls(cd);
             break;
         }
       }
@@ -276,5 +278,36 @@ CoreData npl(int np, CoreData cd) {
       }
 
     }
+  }
+}
+
+CoreData menunpls(CoreData cd) { 
+  String menuSB[10] = { "Ea", "Th", "Cs", "Cr", "Hu", "Hp", "Ho", "Si", "Tc", ""};
+  int mnB = 0;  
+  while (1) {
+    char key = kpd.getKey();
+    if (key) {
+      Serial.println(key);
+      if (key == 'v') { // Naik
+        mnB++;
+        if (mnB > 8)mnB = 0;
+      }
+
+      else if (key == '^') { // Turun
+        mnB--;
+        if (mnB < 0)mnB = 8;
+      }
+
+      else if (key == 'E') {
+        cd = npl(mnB, cd);
+      }
+      lcd.clear();
+    }
+    tampilMenu(menuSB, mnB);
+
+    if (xs(key)) {
+      break;
+    }
+    delay(50);
   }
 }
