@@ -13,7 +13,11 @@
 
 #include <Keypad.h>
 #include <LiquidCrystal.h>
+#include <ArduinoJson.h>
+#include <SD.h>
+#include <SPI.h>
 #include "structure.h"
+#include "sd.h"
 
 LiquidCrystal lcd(22, 24, 26, 28, 30, 32);
 
@@ -49,6 +53,7 @@ void setup()
 {
   Serial.begin(9600);
   lcd.begin(16, 2);
+  SDSetup();
 }
 
 void loop() {
@@ -162,6 +167,7 @@ void tulisData() {
     tampilMenu(menuSB, mnB);
 
     if (xs(key)) {
+      writeToSD(cm);
       break;
     }
     delay(50);

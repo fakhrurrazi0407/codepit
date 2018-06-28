@@ -46,12 +46,12 @@ tampilMenu(String t[], int idx) {
     c = false;
   }
 
-  Serial.print(a);
-  Serial.print("\t");
-  Serial.print(b);
-  Serial.print("\t");
-  Serial.print (c);
-  Serial.print("\n");
+//  Serial.print(a);
+//  Serial.print("\t");
+//  Serial.print(b);
+//  Serial.print("\t");
+//  Serial.print (c);
+//  Serial.print("\n");
   lcd.setCursor(0, 0);
   lcd.print(sc(c));
   lcd.setCursor(1, 0);
