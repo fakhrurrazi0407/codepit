@@ -135,12 +135,35 @@ void menucoredata(int q, int m) {
 }
 
 CoreData cdcoordinate(CoreData cd) {
+  float c_lat, c_long;
   lcd.clear();
   while (1) {
     char key = kpd.getKey();
-    tampilLcd(0, 0, "Ini menu Koordinat");
-    // cd.c_lat = 393939;
-    // cd.c_long = 908789;
+    if (key) {
+      if (key == 'E') {
+        cd.c_lat = c_lat;
+        cd.c_long = c_long;
+        lcd.clear();
+        tampilLcd(0, 0, "Save Data GPS");
+        delay(2000);
+        return cd;
+      }
+    }
+    while (Serial2.available() > 0) {
+      gps.encode(Serial2.read());
+      if (gps.location.isUpdated()) {
+        c_lat = gps.location.lat();
+        c_long = gps.location.lng();
+        lcd.setCursor(0, 0);
+        lcd.print("Lat :");
+        lcd.setCursor(6, 0);
+        lcd.print(c_lat, 6);
+        lcd.setCursor(0, 1);
+        lcd.print("Long:");
+        lcd.setCursor(6, 1);
+        lcd.print(c_long, 6);
+      }
+    }
     if (xs(key)) {
       lcd.clear();
       return cd;

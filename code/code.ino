@@ -16,10 +16,12 @@
 #include <ArduinoJson.h>
 #include <SD.h>
 #include <SPI.h>
+#include <TinyGPS++.h>
 #include "structure.h"
 #include "sd.h"
 
 LiquidCrystal lcd(22, 24, 26, 28, 30, 32);
+TinyGPSPlus gps;
 
 char keys[4][4] =
 {
@@ -53,6 +55,7 @@ CoreMap cm;
 void setup()
 {
   Serial.begin(9600);
+  Serial2.begin(9600);
   lcd.begin(16, 2);
   SDSetup();
   cm.cm_location = "                ";
