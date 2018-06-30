@@ -45,6 +45,7 @@ int mnA = 2;
 unsigned long currentMillis;
 unsigned long previousMillis;
 const long interval = 500;
+CoreMap cm;
 
 #include "menu.h"
 #include "coredata.h"
@@ -54,6 +55,20 @@ void setup()
   Serial.begin(9600);
   lcd.begin(16, 2);
   SDSetup();
+  cm.cm_location = "                ";
+  cm.cm_station = "                ";
+  cm.cm_observer = "                ";
+  cm.cm_date = "                ";
+  cm.cm_time = "                ";
+  cm.cm_depth = 0;
+  cm.cm_visibility = 0;
+  cm.cm_weather = 0;
+  Species sp = dummy_sp();
+  Species sps[9] = {sp, sp, sp, sp, sp, sp, sp, sp, sp};
+  CoreData cd = dummy_cd(sps);
+  CoreData cds[11] = {cd, cd, cd, cd, cd, cd, cd, cd, cd, cd, cd};
+  Quadrant qd = dummy_qd(cds);
+  cm.qds[0] = qd;  
 }
 
 void loop() {
@@ -105,15 +120,6 @@ void bacaData() {
 }
 
 void tulisData() {
-  CoreMap cm;
-  cm.cm_location = "                ";
-  cm.cm_station = "                ";
-  cm.cm_observer = "                ";
-  cm.cm_date = "                ";
-  cm.cm_time = "                ";
-  cm.cm_depth = 0;
-  cm.cm_visibility = 0;
-  cm.cm_weather = 0;
   String menuSB[] = {"Lokasi", "Stasiun", "Pengamat", "Tanggal", "Waktu", "Kedalaman", "Visibility", "Cuaca", "Quadrant", "   "};
   int mnB = 0;
   while (1) {
