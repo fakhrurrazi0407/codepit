@@ -29,7 +29,7 @@ char se(bool c) {
   }
 }
 
-tampilMenu(String t[], int idx) {
+void tampilMenu(String t[], int idx) {
   //  if ((idx%2)) {
   //
   //  }
