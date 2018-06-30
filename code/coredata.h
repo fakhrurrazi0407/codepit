@@ -89,7 +89,7 @@ void menucoredata(int q, int m) {
   lcd.clear();
   String menuSB[] = {"Koordinat     ", "Substrat      ", "NPL           ", "NPL Jenis     "};
   int mnB = 0;
-  CoreData cd;
+  CoreData cd = cm.qds[q].cds[m];
   tampilMenu(menuSB, mnB);
   while (1) {
     char key = kpd.getKey();
@@ -126,6 +126,7 @@ void menucoredata(int q, int m) {
       tampilMenu(menuSB, mnB);
 
       if (xs(key)) {
+        cm.qds[q].cds[m] = cd;
         break;
       }
       delay(50);
@@ -149,7 +150,7 @@ CoreData cdcoordinate(CoreData cd) {
 
 CoreData cdsubstrat(CoreData cd) {
   lcd.clear();
-  int sbs = 0;
+  int sbs = cd.substrat;
   while (1) {
     tampilLcd(0, 0, "Substrat :      ");
     lcd.setCursor(0, 1);
@@ -197,16 +198,22 @@ CoreData npl(int np, CoreData cd) {
   String sp;
   bool edit = false;
   int digit = 0;
+  String data[4];
   if (np < 0) {
     sp = "NP";
+    for (int i = 0; i < 4; i++) {
+      data[i] = String(cd.npl[i]);
+    }
   }
   else {
     sp = kolom_spesies[np];
+    for (int i = 0; i < 4; i++) {
+      data[i] = cd.npls[np].kuadran[i];
+    }
   }
   int col = 0;
   int pos = 0;
   lcd.clear();
-  String data[4] = {"0", "0", "0", "0"};
   while (1) {
     lcd.setCursor(0, 0);
     lcd.print(sc(col == 0 ? true : false));
@@ -244,7 +251,17 @@ CoreData npl(int np, CoreData cd) {
     if (key) {
       lcd.clear();
       if (key == 'X') {
-        break;
+        if (np < 0) {
+          for (int i = 0; i < 4; i++) {
+            cd.npl[i] = data[i].toInt();
+          }
+        }
+        else {
+          for (int i = 0; i < 4; i++) {
+            cd.npls[np].kuadran[i] = data[i].toInt();
+          }
+        }
+        return cd;
       }
       else if (key == 'v') { // Naik
         col++;
@@ -281,9 +298,9 @@ CoreData npl(int np, CoreData cd) {
   }
 }
 
-CoreData menunpls(CoreData cd) { 
+CoreData menunpls(CoreData cd) {
   String menuSB[10] = { "Ea", "Th", "Cs", "Cr", "Hu", "Hp", "Ho", "Si", "Tc", ""};
-  int mnB = 0;  
+  int mnB = 0;
   while (1) {
     char key = kpd.getKey();
     if (key) {
@@ -306,7 +323,7 @@ CoreData menunpls(CoreData cd) {
     tampilMenu(menuSB, mnB);
 
     if (xs(key)) {
-      break;
+      return cd;
     }
     delay(50);
   }
