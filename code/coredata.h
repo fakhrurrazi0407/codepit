@@ -72,7 +72,7 @@ void selectcoredata(int q) {
         if (mnB < 0)mnB = jml - 1;
       }
       else if (key == 'E') {
-        menucoredata(q, range[mnB]);
+        menucoredata(q, mnB);
       }
       lcd.clear();
     }
