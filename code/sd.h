@@ -24,7 +24,7 @@ void printDirectory(File dir, int numTabs) {
 }
 
 void SDSetup() {
-  pinMode(53, OUTPUT);
+  pinMode(A7, OUTPUT);
   // SD Card Initialization
   if (SD.begin())
   {
@@ -44,8 +44,23 @@ String valString(String s) {
   return s;
 }
 
+void writeQuadrantData(JsonArray& quadrant_1, int qd_data) {
+  JsonObject& quadrant_1_0 = quadrant_1.createNestedObject();
+  quadrant_1_0["distance"] = String(rangecoredata[qd_data])+" Meter";
+  quadrant_1_0["lat"] = "19.2999";
+  quadrant_1_0["long"] = "9.3339";
+  quadrant_1_0["substrat"] = "Pasir";
+}
+
+void writeQuadrant(JsonObject& quadrant, int(qd)) {
+  JsonArray& quadrant_1 = quadrant.createNestedArray(String(qd));
+  for (int i = 0; i < 12; i++) {
+    writeQuadrantData(quadrant_1, i);
+  }
+}
+
 void writeToSD(CoreMap cm) {
-  const size_t bufferSize = JSON_OBJECT_SIZE(7);
+  const size_t bufferSize = 220*JSON_ARRAY_SIZE(4) + 22*JSON_ARRAY_SIZE(9) + 2*JSON_ARRAY_SIZE(11) + 199*JSON_OBJECT_SIZE(2) + 22*JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(9);
   DynamicJsonBuffer jsonBuffer(bufferSize);
   String output;
   File myFile;
@@ -59,10 +74,14 @@ void writeToSD(CoreMap cm) {
   root["depth"] = cm.cm_depth;
   root["visibility"] = cm.cm_visibility;
   root["weather"] = valString(data_cuaca[cm.cm_weather]);
+  JsonObject& quadrant = root.createNestedObject("quadrant");
+  for (int i = 0; i < 2; i++) {
+    writeQuadrant(quadrant, i);
+  }
 
   root.printTo(output);
 
-  myFile = SD.open("data/namabaru.txt", FILE_WRITE);
+  myFile = SD.open("data/namabaru.txt", O_WRITE | O_CREAT | O_TRUNC);
   if (myFile) {
     Serial.println("Writing to file...");
     myFile.println(output);

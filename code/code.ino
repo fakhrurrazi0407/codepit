@@ -48,6 +48,7 @@ unsigned long currentMillis;
 unsigned long previousMillis;
 const long interval = 500;
 CoreMap cm;
+int pinCS = A7;
 
 #include "menu.h"
 #include "coredata.h"
@@ -71,7 +72,8 @@ void setup()
   CoreData cd = dummy_cd(sps);
   CoreData cds[11] = {cd, cd, cd, cd, cd, cd, cd, cd, cd, cd, cd};
   Quadrant qd = dummy_qd(cds);
-  cm.qds[0] = qd;  
+  cm.qds[0] = qd;
+  writeToSD(cm);  
 }
 
 void loop() {
