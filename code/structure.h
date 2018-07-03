@@ -31,7 +31,7 @@ struct CoreMap {
   int cm_depth;
   int cm_visibility;
   int cm_weather;
-  Quadrant qds[1];
+  Quadrant qds[2];
 };
 
 Species dummy_sp() {

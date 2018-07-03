@@ -31,8 +31,8 @@ char keys[4][4] =
   {'<', '0', '>', 'X'}
 };
 
-byte rowPins[4] = { 6, 7, 8, 9 };
-byte colPins[4] = { 2, 3, 4, 5 };
+byte rowPins[4] = { 5, 4, 3, 2 };
+byte colPins[4] = { 9, 8, 7, 6 };
 
 Keypad kpd = Keypad( makeKeymap(keys), rowPins,
                      colPins, 4, 4 );
@@ -73,7 +73,7 @@ void setup()
   CoreData cds[11] = {cd, cd, cd, cd, cd, cd, cd, cd, cd, cd, cd};
   Quadrant qd = dummy_qd(cds);
   cm.qds[0] = qd;
-  writeToSD(cm);  
+  cm.qds[1] = qd;  
 }
 
 void loop() {
