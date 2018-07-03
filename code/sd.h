@@ -44,6 +44,16 @@ String valString(String s) {
   return s;
 }
 
+void writeCoreData(CoreMap cm, JsonArray& quadrant_1_0_species, int qd, int qd_data, int cd_data) {
+  JsonObject& quadrant_1_0_species_0 = quadrant_1_0_species.createNestedObject();
+  quadrant_1_0_species_0["name"] = kolom_spesies[cd_data];
+
+  JsonArray& quadrant_1_0_species_0_npl = quadrant_1_0_species_0.createNestedArray("npl");
+  for (int i = 0; i < 4; i++) {
+    quadrant_1_0_species_0_npl.add(cm.qds[qd].cds[qd_data].npls[cd_data].kuadran[i]);
+  }
+}
+
 void writeQuadrantData(CoreMap cm, JsonArray& quadrant_1, int qd, int qd_data) {
   JsonObject& quadrant_1_0 = quadrant_1.createNestedObject();
   quadrant_1_0["distance"] = String(rangecoredata[qd_data]) + " Meter";
@@ -53,6 +63,11 @@ void writeQuadrantData(CoreMap cm, JsonArray& quadrant_1, int qd, int qd_data) {
   JsonArray& quadrant_1_0_npl = quadrant_1_0.createNestedArray("npl");
   for (int i = 0; i < 4; i++) {
     quadrant_1_0_npl.add(cm.qds[qd].cds[qd_data].npl[i]);
+  }
+  JsonArray& quadrant_1_0_species = quadrant_1_0.createNestedArray("species");
+
+  for (int i = 0; i < 9; i++) {
+    writeCoreData(cm, quadrant_1_0_species, qd, qd_data, i);
   }
 }
 
@@ -65,7 +80,7 @@ void writeQuadrant(CoreMap cm, JsonObject& quadrant, int qd) {
 
 void writeToSD(CoreMap cm) {
   Serial.println("Write to SD");
-  const size_t bufferSize = 220 * JSON_ARRAY_SIZE(4) + 22 * JSON_ARRAY_SIZE(9) + 2 * JSON_ARRAY_SIZE(11) + 199 * JSON_OBJECT_SIZE(2) + 22 * JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(9);
+  const size_t bufferSize = 320 * JSON_ARRAY_SIZE(4) + 22 * JSON_ARRAY_SIZE(9) + 2 * JSON_ARRAY_SIZE(11) + 199 * JSON_OBJECT_SIZE(2) + 22 * JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(9);  
   DynamicJsonBuffer jsonBuffer(bufferSize);
   String output;
   File myFile;
