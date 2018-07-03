@@ -178,6 +178,10 @@ void tulisData() {
     tampilMenu(menuSB, mnB);
 
     if (xs(key)) {
+      lcd.clear();
+      tampilLcd(0,0,"Menyimpan Data");
+      delay(2000);
+      lcd.clear();
       writeToSD(cm);
       break;
     }
